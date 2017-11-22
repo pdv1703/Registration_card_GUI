@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys
 import mysql.connector
 from mysql.connector import errorcode
@@ -4171,7 +4172,7 @@ class PrimaryWindow(QWidget):
         self.SplitterForFormating.addWidget(self.TestSplitter2)
         self.SplitterForFormating.setObjectName('SplitterForFormating')
         self.SplitterForFormating.setStyleSheet(
-            """QSplitter#SplitterForFormating::handle {background: #DCDCDC; border-style: 
+            """QSplitter#SplitterForFormating::handle {background: #DCDCDC; border-style:
             outset; border-width: 1px; border-color: #828282; border-radius: 3px;}""")
         ######
 
@@ -6347,9 +6348,9 @@ class PrimaryWindow(QWidget):
                         ChangeDateRow,
                         WhoChangeRow)
                         VALUES
-                        (                   
+                        (
                         '""" + self.PasportniDaniTitle + """',
-                        '""" + self.PasportniDani + """',              
+                        '""" + self.PasportniDani + """',
                         '""" + self.HistoryNumber + """',
                         '""" + self.Age + """',
                         '""" + self.Address + """',
@@ -7055,10 +7056,10 @@ class PrimaryWindow(QWidget):
                                     Login, Password, Role, pib
                                     )
                                     VALUES
-                                    (                   
+                                    (
                                     '""" + self.LiginToCreate + """',
                                     '""" + self.PasswordToCreate +
-                """',                                              
+                """',
                                     '""" + self.RoleToCreate + """',
                                     '""" + self.PIBToCreate + """'
                                     )

@@ -1,0 +1,30 @@
+---
+driver:
+  name: vagrant
+  gui: true
+  #customize:
+  #   memory: 3072
+  #   cpus: 2
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: bento/centos-7.3
+
+  #- name: ezamriy/centos-6-i386
+
+suites:
+  - name: default
+    run_list:
+      - recipe[pet_cookbook::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
