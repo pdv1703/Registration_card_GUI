@@ -11,4 +11,3 @@ source_url 'https://github.com/pdv1703/Registration_card_GUI'
 supports 'centos7.3'
 
 depends 'mariadb', '~> 1.5.3'
-depends 'yumgroup', '~> 0.5.0'
