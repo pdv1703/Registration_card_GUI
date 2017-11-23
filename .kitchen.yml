@@ -19,8 +19,6 @@ verifier:
 platforms:
   - name: bento/centos-7.3
 
-  #- name: ezamriy/centos-6-i386
-
 suites:
   - name: default
     run_list:

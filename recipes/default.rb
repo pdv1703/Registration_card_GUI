@@ -4,8 +4,6 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 data = data_bag_item('db_data', 'db_data')
-root_password = data['service_initial_root_password']
-root_user = data['root_user']
 Pregnant_Admin = data['Pregnant_Admin']
 Pregnant_Admin_pass = data['Pregnant_Admin_pass']
 
@@ -19,8 +17,8 @@ cookbook_file '/home/vagrant/HistoryStatistic.py' do
   action :create
 end
 
-execute 'sudo yum -y update' do
-  command 'sudo yum -y update'
+execute 'yum -y update' do
+  command 'yum -y update'
   live_stream true
 end
 
@@ -35,7 +33,7 @@ end
 execute 'Pregnant_Admin user creating' do
   command "sudo mysql -e \"CREATE USER '#{Pregnant_Admin}'@'localhost' identified by '#{Pregnant_Admin_pass}';\""
   notifies :run, 'execute[Pregnant_Admin user grant privileges]', :immediately
-  #not_if "sudo mysql  -e \"SELECT User FROM mysql.user as us where us.user = 'Pregnant_Admin'\""
+  not_if "mysql -u#{Pregnant_Admin} -p#{Pregnant_Admin_pass}"
 end
 
 execute 'Pregnant_Admin user grant privileges' do
@@ -47,40 +45,35 @@ database_schema = File.join(Chef::Config[:file_cache_path], '/db_row.sql')
 
 execute 'import schema to pregnant_application' do
   command "sudo mysql -uroot  pregnant_application < #{database_schema}"
-  not_if 'mysql -e "select * from pregnant_application.authorization"'
+  not_if 'sudo mysql -e "select * from pregnant_application.authorization"'
 end
 
-execute 'sudo yum -y install yum-utils' do
-  command 'sudo yum -y install yum-utils'
-  live_stream true
+yum_package 'yum-utils'
+
+yum_package 'epel-release'
+rpm_package 'ius-release-1.0-15.ius.centos7.noarch' do
+  source 'https://centos7.iuscommunity.org/ius-release.rpm'
+  action :install
 end
 
-execute 'install ius' do
-  command 'sudo yum -y install --skip-broken https://centos7.iuscommunity.org/ius-release.rpm'
-  live_stream true
-end
+yum_package 'python36u'
 
-execute 'install python36u' do
-  command 'sudo yum -y install python36u'
-  live_stream true
-end
-
-execute 'install python36u-pip' do
-  command 'sudo yum -y install python36u-pip'
-  live_stream true
-end
+yum_package 'python36u-pip'
 
 execute 'install mysql-connector==2.1.6' do
-  command 'sudo pip3.6 install mysql-connector==2.1.6'
+  command 'pip3.6 install mysql-connector==2.1.6'
+  not_if 'pip3.6 show mysql-connector'
   live_stream true
 end
 
 execute 'install pyqt5' do
-  command 'sudo pip3.6 install pyqt5'
+  command 'pip3.6 install pyqt5'
+  not_if 'pip3.6 show PyQt5'
   live_stream true
 end
 
 execute 'install gnome desktop' do
-  command 'sudo yum -y groups install "GNOME Desktop"'
+  command 'yum -y groups install "GNOME Desktop"'
+  not_if "yum grouplist | sed '/^Installed Environment Groups:/,$!d;/^Installed Groups:/,$d;/^Available Environment Groups:/,$d;/^Installed Environment Groups:/d;s/^[[:space:]]*//' | grep 'GNOME Desktop'"
   live_stream true
 end
