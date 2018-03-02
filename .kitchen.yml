@@ -1,8 +1,22 @@
 ---
 driver:
-  name: vagrant
-  gui: true
+  #name: vagrant
   #customize:
+  #  setextradata:
+  #    CustomVideoMode1: 1900x600x32
+  #customize:
+  #  setextradata:
+   #   - CustomVideoMode1: 1900x600x32
+  name: vagrant
+  provider: virtualbox 
+
+       
+  #gui: true
+  #customize:
+   # setextradata:
+   #   - CustomVideoMode1: 1900x600x32
+    
+  # 	p.customize ["setextradata", :id, "CustomVideoMode1", "1900x600x32"]
   #   memory: 3072
   #   cpus: 2
 

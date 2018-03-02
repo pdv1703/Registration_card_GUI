@@ -25,7 +25,7 @@ end
 include_recipe 'mariadb::server'
 
 execute 'creating db' do
-  command 'sudo mysql -e "CREATE DATABASE pregnant_application"'
+  command 'sudo mysql -e "CREATE DATABASE pregnant_application CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"'
   not_if 'sudo mysql  -e "show tables in pregnant_application"'
   live_stream true
 end
@@ -77,3 +77,5 @@ execute 'install gnome desktop' do
   not_if "yum grouplist | sed '/^Installed Environment Groups:/,$!d;/^Installed Groups:/,$d;/^Available Environment Groups:/,$d;/^Installed Environment Groups:/d;s/^[[:space:]]*//' | grep 'GNOME Desktop'"
   live_stream true
 end
+
+

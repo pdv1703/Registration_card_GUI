@@ -14,6 +14,17 @@ from PyQt5.QtWidgets import (
     QDateTimeEdit, QCheckBox)
 
 
+db_user = 'Pregnant_Admin'
+db_user_pass = 'a1w2PregAdmin'
+db_host= 'localhost'
+db_database_name='pregnant_application'
+
+# db_user = 'Pregnant_Admin'
+# db_user_pass = 'a1w2PregAdmin'
+# db_host= 'pregnant-db.co3fhen34njr.eu-central-1.rds.amazonaws.com'
+# db_host= 'pregnant-db.co3fhen34njr.eu-central-1.rds.amazonaws.com'
+# db_database_name='pregnant_application'
+
 class BigTextRedactor(QWidget):
     def __init__(self):
         super().__init__()
@@ -30,7 +41,7 @@ class BigTextRedactor(QWidget):
         self.setLayout(grid)
 
         self.setGeometry(300, 300, 400, 200)
-        self.setWindowTitle('Редактор больших данных')
+        self.setWindowTitle('Редактор великих даних')
         self.show()
 
 
@@ -43,13 +54,13 @@ class Authorization(QWidget):
         self.CloseTextFromTableButton = QPushButton('Ok')
 
         self.PasswordTitle = QLabel()
-        self.PasswordTitle.setText('Введите пароль:')
+        self.PasswordTitle.setText('Введіть пароль:')
         self.PasswordLine = QLineEdit()
         self.PasswordLine.setText('q1w2e3r4')
         self.PasswordLine.setEchoMode(2)
 
         self.LoginTitle = QLabel()
-        self.LoginTitle.setText('Логин:')
+        self.LoginTitle.setText('Логін:')
         self.LoginLine = QLineEdit()
         self.LoginLine.setText('Savka')
 
@@ -68,7 +79,7 @@ class Authorization(QWidget):
         self.setLayout(self.grid)
 
         self.setGeometry(300, 300, 450, 100)
-        self.setWindowTitle("Необходимо выполнить автоизацию в программе!")
+        self.setWindowTitle("Необхідно виконати авторизацію у програмі!")
         self.show()
 
         self.ExitButton.clicked.connect(QCoreApplication.instance().quit)
@@ -98,10 +109,10 @@ class PrimaryWindow(QWidget):
         self.exception = "no exception"
         try:
             cnx = mysql.connector.connect(
-                user='Pregnant_Admin',
-                password='a1w2PregAdmin',
-                host='127.0.0.1',
-                database='pregnant_application')
+                user=db_user,
+                password=db_user_pass,
+                host=db_host,
+                database=db_database_name)
 
         except mysql.connector.DatabaseError as e:
             self.Info_mesage(str(e))
@@ -135,16 +146,16 @@ class PrimaryWindow(QWidget):
                     self.d.close()
 
             else:
-                self.Error_mesage('Некорректный логин или пароль!')
+                self.Error_mesage('Некоректний логін чи пароль!')
             cursor.close()
             cnx.close()
         else:
             self.Error_mesage(
-                "Ошибка в доступе к БД для возможности проверки данных авторизации.\nОбратитесь к администратору.\n\n"
+                "Помилка у доступі до БД для можливості перевірки даних авторизації.\nЗверніться до адміністратора.\n\n"
                 + str(self.exception))
 
     def Error_mesage(self, message):
-        QMessageBox.information(self, "Ошибка!", message)
+        QMessageBox.information(self, "Помилка!", message)
 
     def Info_mesage(self, message):
         QMessageBox.information(self, "Інформація", message)
@@ -152,10 +163,10 @@ class PrimaryWindow(QWidget):
     def ConnectToPregnantBD(self):
         try:
             cnx = mysql.connector.connect(
-                user='Pregnant_Admin',
-                password='a1w2PregAdmin',
-                host='127.0.0.1',
-                database='pregnant_application')
+                user=db_user,
+                password=db_user_pass,
+                host=db_host,
+                database=db_database_name)
             return cnx
         except mysql.connector.DatabaseError as e:
             return 'Error in connection'
@@ -946,8 +957,7 @@ class PrimaryWindow(QWidget):
         self.PoperedniPologuZavershulusAbortomShtychnumCheckBox.stateChanged.connect(
             self.PoperedniPologuZavershulusAbortomShtychnumFunc)
 
-        self.PoperednihPologivNeByloP4CheckBox = QCheckBox(
-            'Не було')
+        self.PoperednihPologivNeByloP4CheckBox = QCheckBox('Не було')
         self.PoperednihPologivNeByloP4CheckBox.setEnabled(0)
         self.PoperednihPologivNeByloP4CheckBox.stateChanged.connect(
             self.PoperednihPologivNeByloP4Func)
@@ -964,7 +974,6 @@ class PrimaryWindow(QWidget):
         self.PoperedniPologuZavershulusSplitter.addWidget(
             self.PoperedniPologuZavershulusAbortomShtychnumCheckBox)
 
-
         # 5)	Попередні пологи а) фізіологічні б) патологічні в)ускладені
         self.PoperedniPologuLabel = QLabel('    5. Попередні пологи:')
         self.PoperedniPologuLabel.setFixedHeight(15)
@@ -976,11 +985,10 @@ class PrimaryWindow(QWidget):
         self.PoperedniPologuFiziologichniCheckBox.stateChanged.connect(
             self.PoperedniPologuFiziologichniFunc)
 
-        self.PoperednihPologivNeByloP5CheckBox = QCheckBox(
-            'Не було')
+        self.PoperednihPologivNeByloP5CheckBox = QCheckBox('Не було')
         self.PoperednihPologivNeByloP5CheckBox.setEnabled(0)
         self.PoperednihPologivNeByloP5CheckBox.stateChanged.connect(
-           self.PoperednihPologivNeByloP5Func)
+            self.PoperednihPologivNeByloP5Func)
 
         self.PoperedniPologuPatologichniCheckBox = QCheckBox('Патологічні')
         self.PoperedniPologuPatologichniCheckBox.setEnabled(0)
@@ -1505,7 +1513,8 @@ class PrimaryWindow(QWidget):
         self.MaloVoddaDiagnostovanoVTerminVagitnostiSplitter.addWidget(
             self.MaloVoddaDiagnostovanoVTerminVagitnostiLineEdit)
 
-        # 12) Дистрес плода (за доплерометрією): а) ні; б) в ст. компенсації; в) в ст. субкомпенсації; г) в ст. декомпенсації
+        # 12) Дистрес плода (за доплерометрією): а) ні; б) в ст. компенсації; в) в ст. субкомпенсації;
+        # г) в ст. декомпенсації
         self.DustressPlodaLabel = QLabel(
             '    12. Дистрес плода (за доплерометрією):')
         self.DustressPlodaLabel.setFixedHeight(15)
@@ -1815,7 +1824,8 @@ class PrimaryWindow(QWidget):
         self.ZavershennaDannoiVagitnostiSamovilnuiVukudenCheckBox.stateChanged.connect(
             self.ZavershennaDannoiVagitnostiSamovilnuiVukudenFunc)
 
-        # ZavershennaDannoiVagitnostiPologuVTerminiFunc ZavershennaDannoiVagitnostiPereryvannaZaMedPokFunc ZavershennaDannoiVagitnostiSamovilnuiVukudenFunc
+        # ZavershennaDannoiVagitnostiPologuVTerminiFunc ZavershennaDannoiVagitnostiPereryvannaZaMedPokFunc
+        # ZavershennaDannoiVagitnostiSamovilnuiVukudenFunc
 
         self.ZavershennaDannoiVagitnostiSamovilnuiVukudenLineEdit = QLineEdit()
         self.ZavershennaDannoiVagitnostiSamovilnuiVukudenLineEdit.setFixedWidth(
@@ -2061,7 +2071,8 @@ class PrimaryWindow(QWidget):
         self.MedukamentoznaProfilaktukaPynktVISplitter.addWidget(
             self.MedukamentoznaProfilaktukaPynktVITerminKoluPruznachenoLabel)
         self.MedukamentoznaProfilaktukaPynktVISplitter.addWidget(
-            self.MedukamentoznaProfilaktukaPynktVITerminKoluPruznachenoLineEdit)
+            self.MedukamentoznaProfilaktukaPynktVITerminKoluPruznachenoLineEdit
+        )
 
         # 3)	Хірургічне лікування :		          а) так б)ні Назва операції та дата _
         self.HiryrgichneLikyvannaPynktVILabel = QLabel(
@@ -2685,7 +2696,6 @@ class PrimaryWindow(QWidget):
         self.StypinRozruvyPologovuhShlahivLineEdit = QLineEdit()
         self.StypinRozruvyPologovuhShlahivLineEdit.hide()
 
-
         self.RozruvuPologovuhShlahivSplitter = QSplitter(Qt.Horizontal)
         self.RozruvuPologovuhShlahivSplitter.addWidget(
             self.RozruvuPologovuhShlahivLabel)
@@ -2777,8 +2787,8 @@ class PrimaryWindow(QWidget):
         self.TruvalistPologiIPeriodLabel = QLabel('      - Ι період:')
         self.TruvalistPologiIPeriodLabel.setFixedHeight(15)
         self.TruvalistPologiIPeriodLabel.setFixedWidth(400)
-        self.TruvalistPologiIPeriodLabel.setAlignment(Qt.AlignRight |
-                                                      Qt.AlignVCenter)
+        self.TruvalistPologiIPeriodLabel.setAlignment(Qt.AlignRight
+                                                      | Qt.AlignVCenter)
 
         self.TruvalistPologivIPeriodLineEdit = QLineEdit()
         self.TruvalistPologivIPeriodLineEdit.setFixedWidth(40)
@@ -2809,8 +2819,8 @@ class PrimaryWindow(QWidget):
         self.TruvalistPologiIIPeriodLabel = QLabel('      - ΙI період:')
         self.TruvalistPologiIIPeriodLabel.setFixedHeight(15)
         self.TruvalistPologiIIPeriodLabel.setFixedWidth(400)
-        self.TruvalistPologiIIPeriodLabel.setAlignment(Qt.AlignRight |
-                                                       Qt.AlignVCenter)
+        self.TruvalistPologiIIPeriodLabel.setAlignment(Qt.AlignRight
+                                                       | Qt.AlignVCenter)
 
         self.TruvalistPologivIIPeriodLineEdit = QLineEdit()
         self.TruvalistPologivIIPeriodLineEdit.setFixedWidth(40)
@@ -3013,8 +3023,8 @@ class PrimaryWindow(QWidget):
 
         self.ZristNovonarodgenogoLabel = QLabel('Зріст:')
         self.ZristNovonarodgenogoLabel.setFixedWidth(50)
-        self.ZristNovonarodgenogoLabel.setAlignment(Qt.AlignRight |
-                                                    Qt.AlignVCenter)
+        self.ZristNovonarodgenogoLabel.setAlignment(Qt.AlignRight
+                                                    | Qt.AlignVCenter)
         self.ZristNovonarodgenogoLineEdit = QLineEdit()
         self.ZristNovonarodgenogoLineEdit.setFixedWidth(100)
 
@@ -3386,12 +3396,12 @@ class PrimaryWindow(QWidget):
             self.VitaminKVvedenoYesFunc)
 
         self.VitaminKVvedenoTerminLabel = QLabel('Термін:')
-        #self.VitaminKVvedenoTerminLabel.hide()
+        # self.VitaminKVvedenoTerminLabel.hide()
 
         self.VitaminKVvedenoTerminLineEdit = QLineEdit()
         self.VitaminKVvedenoTerminLineEdit.setFixedWidth(100)
         self.VitaminKVvedenoTerminLineEdit.setMinimumWidth(300)
-        #self.VitaminKVvedenoTerminLineEdit.hide()
+        # self.VitaminKVvedenoTerminLineEdit.hide()
 
         self.VitaminKVvedenoSplitter = QSplitter(Qt.Horizontal)
         self.VitaminKVvedenoSplitter.addWidget(self.VitaminKVvedenoLabel)
@@ -3660,7 +3670,8 @@ class PrimaryWindow(QWidget):
         self.MedukamentoznaProfilaktukaPynktIXSplitter.addWidget(
             self.MedukamentoznaProfilaktukaPynktIXTerminKoluPruznachenoLabel)
         self.MedukamentoznaProfilaktukaPynktIXSplitter.addWidget(
-            self.MedukamentoznaProfilaktukaPynktIXTerminKoluPruznachenoLineEdit)
+            self.MedukamentoznaProfilaktukaPynktIXTerminKoluPruznachenoLineEdit
+        )
 
         # Хірургічне лікування : а) так б)ні
         self.HiryrgichneLikyvannaPynktIXLabel = QLabel(
@@ -4173,7 +4184,8 @@ class PrimaryWindow(QWidget):
         self.SplitterForFormating.setObjectName('SplitterForFormating')
         self.SplitterForFormating.setStyleSheet(
             """QSplitter#SplitterForFormating::handle {background: #DCDCDC; border-style:
-            outset; border-width: 1px; border-color: #828282; border-radius: 3px;}""")
+            outset; border-width: 1px; border-color: #828282; border-radius: 3px;}"""
+        )
         ######
 
         self.scroll1tab = QScrollArea()
@@ -4335,9 +4347,101 @@ class PrimaryWindow(QWidget):
         self.tab3hbox.addWidget(self.scroll)
         self.tab3.setLayout(self.tab3hbox)
 
+        # 4 tab
+        self.tab4 = QWidget()
+
+        self.PynktIIIStatystykaLabel = QLabel("I. Медикаментозна профілактика/терапія ТЕУ до вагітності.")
+        self.PynktIIIStatystykaLabel.setFixedHeight(20)
+        self.PynktIIIStatystykaLabel.setStyleSheet(
+            """QLabel{font-size:8pt; font-weight:600; color:#aa0000;}""")
+
+        self.PynktIIIStatystykaGoButton = QPushButton("Розрахувати")
+        self.PynktIIIStatystykaGoButton.setFixedHeight(20)
+
+        self.PynktIIIStatystykaTable = QTableWidget()
+        self.PynktIIIStatystykaTable.setRowCount(1)
+        self.PynktIIIStatystykaTable.setColumnCount(2)
+        self.PynktIIIStatystykaTable.setAlternatingRowColors(1)
+
+        self.PynktVIStatystykaLabel = QLabel("ІI. Медикаментозна профілактика/терапія ТЕУ під час вагітності.")
+        self.PynktVIStatystykaLabel.setFixedHeight(20)
+        self.PynktVIStatystykaLabel.setStyleSheet(
+            """QLabel{font-size:8pt; font-weight:600; color:#aa0000;}""")
+
+        self.PynktVIStatystykaLabel_1 = QLabel("    1. Медикаментозна профілактика.")
+        self.PynktVIStatystykaLabel_1.setFixedHeight(20)
+
+        self.PynktVIStatystykaTable_1 = QTableWidget()
+        self.PynktVIStatystykaTable_1.setRowCount(1)
+        self.PynktVIStatystykaTable_1.setColumnCount(3)
+        self.PynktVIStatystykaTable_1.setAlternatingRowColors(1)
+
+        self.PynktVIStatystykaLabel_2 = QLabel("    2. Кількість ускладнень що виникли")
+        self.PynktVIStatystykaLabel_2.setFixedHeight(20)
+
+        self.PynktVIStatystykaTable_2 = QTableWidget()
+        self.PynktVIStatystykaTable_2.setRowCount(1)
+        self.PynktVIStatystykaTable_2.setColumnCount(2)
+        self.PynktVIStatystykaTable_2.setAlternatingRowColors(1)
+
+        self.PynktVIStatystykaGoButton = QPushButton("Розрахувати")
+        self.PynktVIStatystykaGoButton.setFixedHeight(20)
+
+        self.PynktIXStatystykaLabel = QLabel("ІIІ. Медикаментозна профілактика/терапія ТЕУ у післяпологовий період")
+        self.PynktIXStatystykaLabel.setFixedHeight(20)
+        self.PynktIXStatystykaLabel.setStyleSheet(
+            """QLabel{font-size:8pt; font-weight:600; color:#aa0000;}""")
+
+        self.PynktIXStatystykaGoButton = QPushButton("Розрахувати")
+        self.PynktIXStatystykaGoButton.setFixedHeight(20)
+
+        self.PynktIXStatystykaTable = QTableWidget()
+        self.PynktIXStatystykaTable.setRowCount(1)
+        self.PynktIXStatystykaTable.setColumnCount(3)
+        self.PynktIXStatystykaTable.setAlternatingRowColors(1)
+
+        self.StatystykaSplitter1 = QSplitter(Qt.Vertical)
+        self.StatystykaSplitter1.addWidget(self.PynktIIIStatystykaLabel)
+        self.StatystykaSplitter1.addWidget(self.PynktIIIStatystykaGoButton)
+        self.StatystykaSplitter1.addWidget(self.PynktIIIStatystykaTable)
+
+        self.StatystykaSplitter2 = QSplitter(Qt.Vertical)
+        self.StatystykaSplitter2.addWidget(self.PynktVIStatystykaLabel)
+        self.StatystykaSplitter2.addWidget(self.PynktVIStatystykaGoButton)
+        self.StatystykaSplitter2.addWidget(self.PynktVIStatystykaLabel_1)
+        self.StatystykaSplitter2.addWidget(self.PynktVIStatystykaTable_1)
+        self.StatystykaSplitter2.addWidget(self.PynktVIStatystykaLabel_2)
+        self.StatystykaSplitter2.addWidget(self.PynktVIStatystykaTable_2)
+
+        self.StatystykaSplitter3 = QSplitter(Qt.Vertical)
+        self.StatystykaSplitter3.addWidget(self.PynktIXStatystykaLabel)
+        self.StatystykaSplitter3.addWidget(self.PynktIXStatystykaGoButton)
+        self.StatystykaSplitter3.addWidget(self.PynktIXStatystykaTable)
+
+        self.StatystykaFinalSplitter = QSplitter(Qt.Vertical)
+        self.StatystykaFinalSplitter.addWidget(self.StatystykaSplitter1)
+        self.StatystykaFinalSplitter.addWidget(self.StatystykaSplitter2)
+        self.StatystykaFinalSplitter.addWidget(self.StatystykaSplitter3)
+
+        self.tab4FinalSplitter = QSplitter(Qt.Horizontal)
+        self.tab4FinalSplitter.addWidget(self.StatystykaFinalSplitter)
+
+        self.scrolltab4 = QScrollArea()
+        self.scrolltab4.setWidgetResizable(1)
+        self.scrolltab4.setEnabled(1)
+        self.scrolltab4.setWidget(self.StatystykaFinalSplitter)
+
+        self.tab4hbox = QHBoxLayout()
+        self.tab4hbox.setContentsMargins(5, 5, 5, 5)
+        self.tab4hbox.addWidget(self.scrolltab4)
+        self.tab4.setLayout(self.tab4hbox)
+
         self.bottomLeftTabWidget.addTab(self.tab1, "Внесення даних")
         self.bottomLeftTabWidget.addTab(self.tab2, "Перегляд даних")
+        self.bottomLeftTabWidget.addTab(self.tab4, "Статистика")
         self.bottomLeftTabWidget.addTab(self.tab3, "Адміністрування")
+
+
 
         self.grid = QGridLayout()
         self.grid.setSpacing(10)
@@ -4434,7 +4538,7 @@ class PrimaryWindow(QWidget):
             self.Disability = 'немає.'
         elif self.DisabilityILevelCheckBox.isChecked():
             self.Disability = 'I група.'
-        elif self.DisabilityIIILevelCheckBox.isChecked():
+        elif self.DisabilityIILevelCheckBox.isChecked():
             self.Disability = 'II група.'
         elif self.DisabilityIIILevelCheckBox.isChecked():
             self.Disability = 'III група.'
@@ -5097,8 +5201,8 @@ class PrimaryWindow(QWidget):
                 self.Error_mesage(
                     'Необхідно вказати термін на якому відбулися пологи в пункті "V. Перебіг даної вагітності."!'
                 )
-            else:
-                self.ZavershennaDannoiVagitnostiPologuVTermini = self.ZavershennaDannoiVagitnostiPologuVTermini
+            # else:
+            #     self.ZavershennaDannoiVagitnostiPologuVTermini = self.ZavershennaDannoiVagitnostiPologuVTermini
             self.ZavershennaDannoiVagitnosti = self.ZavershennaDannoiVagitnosti + self.ZavershennaDannoiVagitnostiPologuVTermini + ' тижнів'
 
         elif self.ZavershennaDannoiVagitnostiPereryvannaZaMedPokCheckBox.isChecked(
@@ -5113,8 +5217,8 @@ class PrimaryWindow(QWidget):
                 self.Error_mesage(
                     'Необхідно вказати термін на якому відбулося переривання вагітності за медичними показаннями в пункті "V. Перебіг даної вагітності."!'
                 )
-            else:
-                self.ZavershennaDannoiVagitnostiPereryvannaZaMedPok = self.ZavershennaDannoiVagitnostiPereryvannaZaMedPok
+            # else:
+            #     self.ZavershennaDannoiVagitnostiPereryvannaZaMedPok = self.ZavershennaDannoiVagitnostiPereryvannaZaMedPok
             self.ZavershennaDannoiVagitnosti = self.ZavershennaDannoiVagitnosti + self.ZavershennaDannoiVagitnostiPereryvannaZaMedPok + ' тижнів'
 
         elif self.ZavershennaDannoiVagitnostiSamovilnuiVukudenCheckBox.isChecked(
@@ -5129,8 +5233,8 @@ class PrimaryWindow(QWidget):
                 self.Error_mesage(
                     'Необхідно вказати термін на якому самовільний викидень в пункті "V. Перебіг даної вагітності."!'
                 )
-            else:
-                self.ZavershennaDannoiVagitnostiSamovilnuiVukuden = self.ZavershennaDannoiVagitnostiSamovilnuiVukuden
+            # else:
+            #     self.ZavershennaDannoiVagitnostiSamovilnuiVukuden = self.ZavershennaDannoiVagitnostiSamovilnuiVukuden
             self.ZavershennaDannoiVagitnosti = self.ZavershennaDannoiVagitnosti + self.ZavershennaDannoiVagitnostiSamovilnuiVukuden + ' тижнів'
 
         else:
@@ -5180,8 +5284,8 @@ class PrimaryWindow(QWidget):
                 self.Error_mesage(
                     'Необхідно заповнити клас еластичної компрессії в пункті "VІ Проведення профілактики/терапії ТЕУ під час вагітності"!'
                 )
-            else:
-                self.ElastychnaKompresiaPynktVILevel = self.ElastychnaKompresiaPynktVILevel
+            # else:
+            #     self.ElastychnaKompresiaPynktVILevel = self.ElastychnaKompresiaPynktVILevel
             self.ElastychnaKompresiaPynktVI = self.ElastychnaKompresiaPynktVI + self.ElastychnaKompresiaPynktVILevel
         self.ElastychnaKompresiaPynktVI = self.ElastychnaKompresiaPynktVI.replace(
             "'", "''")
@@ -5254,8 +5358,8 @@ class PrimaryWindow(QWidget):
                 self.Error_mesage(
                     'Необхідно заповнити назву операції та дату в пункті "VІ Проведення профілактики/терапії ТЕУ під час вагітності"!'
                 )
-            else:
-                self.HiryrgichneLikyvannaNazvaOpericiiPynktVI = self.HiryrgichneLikyvannaNazvaOpericiiPynktVI
+            # else:
+            #     self.HiryrgichneLikyvannaNazvaOpericiiPynktVI = self.HiryrgichneLikyvannaNazvaOpericiiPynktVI
             self.HiryrgichneLikyvannaPynktVI = self.HiryrgichneLikyvannaPynktVI + self.HiryrgichneLikyvannaNazvaOpericiiPynktVI
         self.HiryrgichneLikyvannaPynktVI = self.HiryrgichneLikyvannaPynktVI.replace(
             "'", "''")
@@ -5274,7 +5378,7 @@ class PrimaryWindow(QWidget):
                     'Необхідно заповнити тривалість проведеної профілактики в пункті "VІ Проведення профілактики/терапії ТЕУ під час вагітності"!'
                 )
             else:
-                self.TryvalistProvedennoiProfilaktykyPynktVIText = self.TryvalistProvedennoiProfilaktykyPynktVIText
+                # self.TryvalistProvedennoiProfilaktykyPynktVIText = self.TryvalistProvedennoiProfilaktykyPynktVIText
                 self.TryvalistProvedennoiProfilaktykyPynktVI = "4. Тривалість проведеної профілактики: " + self.TryvalistProvedennoiProfilaktykyPynktVIText
         self.TryvalistProvedennoiProfilaktykyPynktVI = self.TryvalistProvedennoiProfilaktykyPynktVI.replace(
             "'", "''")
@@ -5293,8 +5397,8 @@ class PrimaryWindow(QWidget):
                 self.Error_mesage(
                     'Необхідно заповнити назву операції та дату в пункті "VІ Проведення профілактики/терапії ТЕУ під час вагітності"!'
                 )
-            else:
-                self.YskladneenaVidProfilaktykuPynktVIText = self.YskladneenaVidProfilaktykuPynktVIText
+            # else:
+                # self.YskladneenaVidProfilaktykuPynktVIText = self.YskladneenaVidProfilaktykuPynktVIText
             self.YskladneenaVidProfilaktykuPynktVI = self.YskladneenaVidProfilaktykuPynktVI + self.YskladneenaVidProfilaktykuPynktVIText
         self.YskladneenaVidProfilaktykuPynktVI = self.YskladneenaVidProfilaktykuPynktVI.replace(
             "'", "''")
@@ -5312,7 +5416,7 @@ class PrimaryWindow(QWidget):
                     'Необхідно за скільки годин до пологів було відмінено терапію в пункті "VІ Проведення профілактики/терапії ТЕУ під час вагітності"!'
                 )
             else:
-                self.TerapiyVidminenoZaGodDoPologivPynktVIText = self.TerapiyVidminenoZaGodDoPologivPynktVIText
+                # self.TerapiyVidminenoZaGodDoPologivPynktVIText = self.TerapiyVidminenoZaGodDoPologivPynktVIText
                 self.TerapiyVidminenoZaGodDoPologivPynktVI = '6. Терапію відмінено за: ' + self.TerapiyVidminenoZaGodDoPologivPynktVIText
 
         self.PerebigDanuhPologiv = "\nVII. Перебіг даних пологів."
@@ -5501,8 +5605,11 @@ class PrimaryWindow(QWidget):
                 'Необхідно вибрати потрібний варіант розриву пологових шляхів в пункті "VII. Перебіг даних пологів"!'
             )
         self.StypinRozruvu = ''
-        if self.RozruvuPologovuhShlahivPromejunuCheckBox.isChecked() or self.RozruvuPologovuhShlahivPihvuCheckBox.isChecked() or self.RozruvuPologovuhShlahivShuikiMatkuCheckBox.isChecked():
-            self.StypinRozruvu = self.StypinRozruvyPologovuhShlahivLineEdit.text()
+        if self.RozruvuPologovuhShlahivPromejunuCheckBox.isChecked(
+        ) or self.RozruvuPologovuhShlahivPihvuCheckBox.isChecked(
+        ) or self.RozruvuPologovuhShlahivShuikiMatkuCheckBox.isChecked():
+            self.StypinRozruvu = self.StypinRozruvyPologovuhShlahivLineEdit.text(
+            )
             self.StypinRozruvu = self.StypinRozruvu.strip()
             self.StypinRozruvu = ' ступінь: ' + self.StypinRozruvu
 
@@ -6529,7 +6636,7 @@ class PrimaryWindow(QWidget):
             cnx.commit()
             cursor.close()
             cnx.close()
-            self.Info_mesage('Діні успішно внесені в БД!')
+            self.Info_mesage('Дані успішно внесені в БД!')
 
             self.ResetToDefaultValue()
 
@@ -6981,24 +7088,21 @@ class PrimaryWindow(QWidget):
                 self.WievText.setGeometry(300, 300, 700, 600)
                 i = 0
                 j = self.SeachResultTable.currentRow()
-                while i < self.SeachResultTable.columnCount():
+                while i < int(self.SeachResultTable.columnCount()):
                     CellText = self.SeachResultTable.item(j, i)
                     OrderItemText = CellText.text()
                     try:
-
-                        if str(OrderItemText[1]) == 'V' or str(
-                                OrderItemText[1]
-                        ) == 'I' or str(OrderItemText).find(
-                                'ІX.Післяпологовий') != -1:
-                            # print(OrderItemText)
+                        # if str(OrderItemText[1]) == 'V' or str(OrderItemText[1]) == 'I' \
+                        #         or str(OrderItemText).find('ІX.Післяпологовий') != -1 \
+                        #         or str(OrderItemText).find('ІV. Акушерський анамнез.') != -1:
+                        if str(OrderItemText).find('V') != -1 or str(OrderItemText).find('I') != -1 \
+                                or str(OrderItemText).find('ІX.Післяпологовий') != -1 \
+                                or str(OrderItemText).find('ІV. Акушерський анамнез.') != -1:
                             self.WievText.BigDataText.insertPlainText("\n")
-                            self.WievText.BigDataText.insertHtml(
-                                "<b>" + OrderItemText + "</b>\n")
+                            self.WievText.BigDataText.insertHtml("<b>" + OrderItemText + "</b>\n")
                             self.WievText.BigDataText.insertPlainText("\n")
                         else:
-                            self.WievText.BigDataText.insertPlainText(
-                                OrderItemText + "\n")
-                            ##print(OrderItemText[1])
+                            self.WievText.BigDataText.insertPlainText(OrderItemText + "\n")
                     except Exception as e:
                         self.Info_mesage(str(e))
                     i = i + 1
@@ -7049,8 +7153,7 @@ class PrimaryWindow(QWidget):
                 self.Info_mesage(str(e))
                 cnx.close()
             # #query = ("SELECT s.Role from authorization s where s.Login="+"'"+self.Login+"' and s.Password='"+self.Password+"'")
-            query_to_insert = (
-                """
+            query_to_insert = ("""
                                 INSERT INTO authorization
                                     (
                                     Login, Password, Role, pib
@@ -7058,8 +7161,7 @@ class PrimaryWindow(QWidget):
                                     VALUES
                                     (
                                     '""" + self.LiginToCreate + """',
-                                    '""" + self.PasswordToCreate +
-                """',
+                                    '""" + self.PasswordToCreate + """',
                                     '""" + self.RoleToCreate + """',
                                     '""" + self.PIBToCreate + """'
                                     )
@@ -7644,15 +7746,13 @@ class PrimaryWindow(QWidget):
                 0)
             self.PoperedniPologuZavershulusAbortomShtychnumCheckBox.setEnabled(
                 0)
-            self.PoperednihPologivNeByloP4CheckBox.setEnabled(
-                0)
+            self.PoperednihPologivNeByloP4CheckBox.setEnabled(0)
         else:
             self.PoperedniPologuZavershulusAbortomSamovilnumCheckBox.setEnabled(
                 1)
             self.PoperedniPologuZavershulusAbortomShtychnumCheckBox.setEnabled(
                 1)
-            self.PoperednihPologivNeByloP4CheckBox.setEnabled(
-                1)
+            self.PoperednihPologivNeByloP4CheckBox.setEnabled(1)
 
     def PoperedniPologuZavershulusAbortomSamovilnumFunc(self):
         if self.PoperedniPologuZavershulusAbortomSamovilnumCheckBox.isChecked(
@@ -7660,28 +7760,24 @@ class PrimaryWindow(QWidget):
             self.PoperedniPologuZavershulusAbortomShtychnumCheckBox.setEnabled(
                 0)
             self.PoperedniPologuZavershulusPologamuCheckBox.setEnabled(0)
-            self.PoperednihPologivNeByloP4CheckBox.setEnabled(
-                0)
+            self.PoperednihPologivNeByloP4CheckBox.setEnabled(0)
         else:
             self.PoperedniPologuZavershulusPologamuCheckBox.setEnabled(1)
             self.PoperedniPologuZavershulusAbortomShtychnumCheckBox.setEnabled(
                 1)
-            self.PoperednihPologivNeByloP4CheckBox.setEnabled(
-                1)
+            self.PoperednihPologivNeByloP4CheckBox.setEnabled(1)
 
     def PoperedniPologuZavershulusAbortomShtychnumFunc(self):
         if self.PoperedniPologuZavershulusAbortomShtychnumCheckBox.isChecked():
             self.PoperedniPologuZavershulusPologamuCheckBox.setEnabled(0)
             self.PoperedniPologuZavershulusAbortomSamovilnumCheckBox.setEnabled(
                 0)
-            self.PoperednihPologivNeByloP4CheckBox.setEnabled(
-                0)
+            self.PoperednihPologivNeByloP4CheckBox.setEnabled(0)
         else:
             self.PoperedniPologuZavershulusPologamuCheckBox.setEnabled(1)
             self.PoperedniPologuZavershulusAbortomSamovilnumCheckBox.setEnabled(
                 1)
-            self.PoperednihPologivNeByloP4CheckBox.setEnabled(
-                1)
+            self.PoperednihPologivNeByloP4CheckBox.setEnabled(1)
 
     def PoperednihPologivNeByloP4Func(self):
         if self.PoperednihPologivNeByloP4CheckBox.isChecked():
